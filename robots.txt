@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /content
+Allow: /about
+Allow: /home
+Allow: /contact
