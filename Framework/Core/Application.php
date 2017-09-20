@@ -1,6 +1,11 @@
 <?php
 
-namespace Core;
+namespace Framework\Core;
+
+//use Framework\Core\HttpMessage;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 
 /**
  * Implements application module management.
@@ -19,8 +24,12 @@ class Application
 		}
 	}
 
-	public function run()
+	public function run(ServerRequestInterface $request): ResponseInterface
 	{
-		
+        
+        if ()
+        {
+            
+        }
 	}
 }

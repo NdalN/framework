@@ -1,12 +1,10 @@
 <?php
-
 /**
- * User Roles Manager Advanced Example PHP application - an extremely simple user management PHP application
+ * The NdalN modular framwork
  *
- * @author MakemakeCode
- * @link http://makemakecode.com
- * @link http://forum.makemakecode.com/
- * @link http://makemakecode.com/documents/index.html
+ * @author NdalN
+ * @license OPEN-NdalN
+ * @link http://ndaln.com
  */
 
 /**
@@ -14,9 +12,9 @@
  * Useful to show every little problem.
  * @link http://stackoverflow.com/questions/1053424/how-do-i-get-php-errors-to-display
  */
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 function get_app_virtual_folder()
 {
@@ -26,34 +24,33 @@ function get_app_virtual_folder()
     return ($subfolder != '' ? $subfolder . '/' : '/');
 }
 
-
 // Web server ROOT folder like "/var/www/".
 define('DOCUMENT_ROOT', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
-
 // Subfolder in case of application installed in subfolder.
 define('APP_VIRTUAL_FOLDER', get_app_virtual_folder());
 
+
 // Set a constant that holds the project's "application/modules" folder, like "/var/www/application".
-define('APP', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'application' . DIRECTORY_SEPARATOR);
+define('APPLICATION', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'Application' . DIRECTORY_SEPARATOR);
+// Application library folder path (Application library folder path (Services, Repositories, Entity etc) like "/var/www/application/modules".
+define('MODULES', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'Application' . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR);
+
 
 // Application library folder path (Application library folder path (Services, Repositories, Entity etc) like "/var/www/application/modules".
-define('APP_MODULES', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'application' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR);
+define('FRAMEWORK', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'Framework' . DIRECTORY_SEPARATOR);
+// Application library folder path (Application library folder path (Services, Repositories, Entity etc) like "/var/www/application/modules".
+define('FRAMEWORK_CORE', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'Framework' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR);
+// Application library folder path (Application library folder path (Services, Repositories, Entity etc) like "/var/www/application/modules".
+define('FRAMEWORK_CONFIG', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'Framework' . DIRECTORY_SEPARATOR . 'Configuration' . DIRECTORY_SEPARATOR);
 
-// Vendors' library folder path.
-define('APP_VENDORS', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'vendors' . DIRECTORY_SEPARATOR);
+//Library folder path.
+define('LIBS', DOCUMENT_ROOT . APP_VIRTUAL_FOLDER . 'Libs' . DIRECTORY_SEPARATOR);
 
-// Application content virtual folder path.
-define('APP_CONTENT', APP_VIRTUAL_FOLDER);
 
 // This is the application auto-loader registration.
-if (file_exists(APP_MODULES . 'Configuration/Autoload.php')) {
-    require APP_MODULES . 'Configuration/Autoload.php';
-}
-
-// This is the vendors library auto-loader registration.
-if (file_exists(APP_VENDORS . 'autoload.php')) {
-    require APP_VENDORS . 'autoload.php';
-}
+require FRAMEWORK_CORE . 'Autoload.php';
+require FRAMEWORK_CONFIG . 'AutoloadConfig.php';
 
 // start the application
-$app = new \Core\Application();
+$Application = new Framework\Core\Application();
+$Application->run(Framework\Core\HttpMessage\ServerRequest::initWithGlobals());

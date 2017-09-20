@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nyholm\Psr7;
+namespace Framework\Core\HttpMessage;
 
 use InvalidArgumentException;
-use Nyholm\Psr7\Factory\StreamFactory;
+//use Framework\Core\HttpMessage\Factory\StreamFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;

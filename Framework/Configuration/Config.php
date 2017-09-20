@@ -38,49 +38,6 @@ class Config
 {
     protected static $instance;
 
-    /**
-     * Path of application, content, vendors.
-     *
-     * @var array
-     */
-    protected $path = array(
-        'App' => APP,                          /* Application root path */
-        'AppVirtual' => APP_VIRTUAL_FOLDER,    /* Application virtual root path */
-        'Content'    => APP_CONTENT,           /* Content virtual root path */
-        'Vendors'    => APP_VENDORS            /* Vendors library root path */
-    );
-
-    protected $autoloadConfig = array(
-        'Framework\\UnitTests' => 'UnitTests'
-
-    );
-
-    protected $generalProperties = array(
-        'AuthCookieName' => 'appsession',
-        'RememberMeCookieName' => 'rmsession',
-        'AuthDomainName' => '.localhost.com',
-        'Theme' => 'bootstrap',
-        'APIAuthentication' => APP_API_AUTHENTICATION,
-        'APIEndPoint' => APP_API_ENDPOINT,
-        'APIUser' => APP_API_USER,
-        'APIToken' => APP_API_TOKEN
-    );
-
-    protected $cryptoSecurity = array(
-        'EncryptionKey' => '',
-    );
-
-    protected $urlSecurity = array(
-        'SignInUrl' => APP_USER_MANAGEMENT_URL.'/accounts/signin',
-        'SignUpUrl' => APP_USER_MANAGEMENT_URL.'/accounts/signup',
-        'SignOutUrl' => APP_USER_MANAGEMENT_URL.'/accounts/signout',
-        'SignInUrlSocial' => APP_USER_MANAGEMENT_URL.'/accounts/signinwith',
-        'ForgotPasswordUrl' => APP_USER_MANAGEMENT_URL.'/accounts/forgotpassword',
-        'ProfileUrl' => APP_USER_MANAGEMENT_URL.'/profile',
-        'AvatarUrl' => APP_USER_MANAGEMENT_URL.'/content/avatar',
-        'AdminControlPanel' => APP_USER_MANAGEMENT_URL,
-        'Audit' => APP_USER_MANAGEMENT_URL.'/audit'
-    );
 
     public static function __callStatic($method, $args)
     {

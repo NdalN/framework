@@ -4,9 +4,9 @@ use Framework\Test\UnitTest;
 
 use Framework\Core\Request;
 
-class Router extends UnitTest
+class RouterTest extends UnitTest
 {
-	public function __construct()
+	public function initTestEnvironement()
 	{
 		$this->Router = new Router();
 	}

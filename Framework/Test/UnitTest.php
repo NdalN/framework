@@ -2,35 +2,153 @@
 
 class UnitTest
 {
-	protected $totalTestCount;
-
-	protected $TestTypeCount = [
-		'TestEquality' => '',
-		'TestContening' => '',
-		'Test' => '',
-		'' => '';
-	];
-
-	protected $testFaild = [];
-
-	protected function __construct()
+	/**
+	 * Passesed if value is true
+	 *
+	 * @param boolean $value test value
+	 * @param string $message message display if test faild
+	 */
+	protected function TestTrue(boolean $value, string $message = '')
 	{
-		var_dump($this);
+		if (is_bool($value) && $value)
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}		
+	}
 
-		foreach ($this as $propertise) {
-			if (is_callable($this->$propertise())) {
-				$this->$propertise();
-			}
+	/**
+	 * Passesed if value is false
+	 *
+	 * @param boolean $value
+	 * @param string $message message display if test faild
+	 */
+	protected function TestFalse(boolean $value, string $message = '')
+	{
+		if (is_bool($value) && !$value)
+		{
+			# code...
+		}
+		else
+		{
+			# code...
 		}
 	}
 
-	protected function TestEquality($toFind, $toTest)
+	/**
+	 * Passesed if $referenceValue == $toTestValue
+	 *
+	 * @param boolean $referenceValue valid value
+	 * @param mixed $toTestValue value to test
+	 * @param mixed $message message display if test faild
+	 */
+	protected function TestEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
 	{
-		
+		if ($referenceValue == $toTestValue)
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}
+	}
+	
+	/**
+	 * Passesed if $referenceValue != $toTestValue
+	 *
+	 * @param boolean $referenceValue valid value
+	 * @param mixed $toTestValue value to test
+	 * @param mixed $message message display if test faild
+	 */
+	protected function TestNotEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	{
+		if ($referenceValue != $toTestValue)
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}
 	}
 
-	protected function CountTest()
+	/**
+	 * Passesed if $referenceValue === $toTestValue
+	 *
+	 * @param boolean $referenceValue valid value
+	 * @param mixed $toTestValue value to test
+	 * @param mixed $message message display if test faild
+	 */
+	protected function TestSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
 	{
+		if ($referenceValue === $toTestValue)
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}
+	}
 
+	/**
+	 * Passesed if $referenceValue !== $toTestValue
+	 *
+	 * @param boolean $referenceValue valid value
+	 * @param mixed $toTestValue value to test
+	 * @param mixed $message message display if test faild
+	 */
+	protected function TestNotSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	{
+		if ($referenceValue !== $toTestValue)
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}
+	}
+
+	/**
+	 * Passesed if $referenceValue is contains in $toTestValue
+	 *
+	 * @param boolean $referenceValue valid value
+	 * @param mixed $toTestValue value to test
+	 * @param mixed $message message display if test faild
+	 */
+	protected function TestContains(mixed $value, array $arr, string $message = '')
+	{
+		if (in_array($toTestValue ,$referenceValue))
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}
+	}
+
+	/**
+	 * Passesed if $referenceValue is not contains in $toTestValue
+	 *
+	 * @param boolean $referenceValue valid value
+	 * @param mixed $toTestValue value to test
+	 * @param mixed $message message display if test faild
+	 */
+	protected function TestNotContains(mixed $value, array $arr, string $message = '')
+	{
+		if (!in_array($toTestValue ,$referenceValue))
+		{
+			# code...
+		}
+		else
+		{
+			# code...
+		}
 	}
 }
