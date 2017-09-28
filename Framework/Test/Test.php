@@ -1,92 +1,180 @@
 <?php
+namespace Framework\Test;
+
 /**
  * Main TestClass
  */
 class Test
 {
-	private $totalTestCount;
+	/**
+	 * All test count
+	 *
+	 * @var [type]
+	 */
+	private $totalTestCount = 0;
+
+	/**
+	 * Count type of test
+	 *
+	 * @var array
+	 */
+	private $TestTypeCount = [];
 	
-	private $faild = array();
+	/**
+	 * Test Faild count
+	 *
+	 * @var int
+	 */
+	private $faild = 0;
+	
+	/**
+	 * Test Success count
+	 *
+	 * @var int
+	 */
+	private $success = 0;
 
-	private $TestTypeCount = [
-		'TestEquality' => '',
-		'TestContening' => '',
-		'Test' => '',
-		'' => '';
-	];
+	/**
+	 * Test List
+	 *
+	 * @var array
+	 */
+	private $test = [];
 
+	/**
+	 * Current Tested File
+	 *
+	 * @var string
+	 */
+	private $currentTestedFile = '';
+	
+	/**
+	 * List of tested file
+	 *
+	 * @var array
+	 */
+	private $testFileList = [];
 
-	public function __construct($testDirectory = 'Tests', $output = 'cli')
+	/**
+	 * Init unit testing
+	 *
+	 * @param string $testDirectory
+	 * @param string $output
+	 */
+	public function __construct(array $testDirectorys = ['Tests'], string $output = 'cli')
 	{
-		
+		foreach ($testDirectorys as $testDirectory)
+		{
+			$this->testFileList = $this->getTestFileList($testDirectory);
+		}
 	}
 
-	private function getTestFileList($path)
+	/**
+	 * Get all php file of $path
+	 *
+	 * @param string $path
+	 * @return void
+	 */
+	private function getTestFileList(string $path)
 	{
-		$dirContent = opendir($path);
+		$testFileList = [];
+		$dirContent = scandir($path);
 
-		foreach ($dirContent as $file) {
-			if ($file != '.' && $file != '..') {
-				if (pathinfo($file, PATHINFO_EXTENSION) == 'php') {
-					$testFileList[] = $file;
+		foreach ($dirContent as $file)
+		{
+			if ($file != '.' && $file != '..')
+			{
+				if (is_dir($path.DIRECTORY_SEPARATOR.$file)) {
+					$testFileList = array_merge($testFileList, $this->getTestFileList($path.DIRECTORY_SEPARATOR.$file));
 				}
-				elseif (is_dir($file))
+				elseif (pathinfo($file, PATHINFO_EXTENSION) == 'php')
 				{
-					$testDirectory .= $this->getTestFileList($file);
+					$testFileList[] = $path.DIRECTORY_SEPARATOR.$file;;
 				}
 			}	
 		}
+
+		return $testFileList;
 	}
 
-
+	/**
+	 * Run test
+	 *
+	 * @return void
+	 */
 	public function run()
 	{
-		$startTestTime = microtime();
+		$startTestTime = (int) microtime(false);
 
-		$testFileList = getTestFileList();
-		
-		foreach ($testFileList as $testFile) {
-			
+		// var_dump($this->testFileList);
 
-			try
-			{
+		foreach ($this->testFileList as $testFile)
+		{
+			if (file_exists($testFile)) {
 				require_once $testFile;
-
-				new $testFile($this);
-			}
-			catch 
-			{
-
-			}
-
-			if(is_callable(array('Foo', '__construct')))
-			{
 				
+				try
+				{
+					$className = pathinfo($testFile, PATHINFO_FILENAME);
+					$testedClass = new $className($this);
+				}
+				catch (Exception $e)
+				{
+					throw new Exception('Error Processing Request' . $e->getMessage(), 1);
+				}
 			}
+
+			// foreach ($testedClass as $propertise) {
+			// 	if (is_callable($testedClass->$propertise())) {
+			// 		$testedClass->$propertise();
+			// 	}
+			// }
 		}
 
-
-		
-		var_dump($this);
-		foreach ($this as $propertise) {
-			if (is_callable($this->$propertise())) {
-				$this->$propertise();
-			}
-		}
-
-
-
-		$endTestTime = microtime();
+		$endTestTime = (int) microtime(false);
+		var_dump($endTestTime, $startTestTime);
 		$testDurration = $endTestTime - $startTestTime;
 	}
 
-	public function faild($message)
+	/**
+	 * If test faild
+	 *
+	 * @param string $name the name of tested function
+	 * @param string $fileName current tested file
+	 * @param int $lineNumber test line number
+	 * @param string $testType type of test
+	 * @param string $message message of test
+	 * @return void
+	 */
+	public function testFaild(string $name, string $fileName, int $lineNumber, string $testType, string $message)
 	{
 		$this->testFaild = array(
-			'name' => $functionName,
-			'LineNumber' => ,
-			'name' => ,
-			'name' => ,
+			'Name' => $name,
+			'FileName' => $fileName,
+			'LineNumber' => $lineNumber,
+			'TestType' => $testType,
+			'Message' => $message
+		);
+	}
+
+	/**
+	 * If test is passed
+	 *
+	 * @param string $name
+	 * @param string $fileName
+	 * @param int $lineNumber
+	 * @param string $testType
+	 * @param string $message
+	 * @return void
+	 */
+	public function testSucces(string $name, string $fileName, int $lineNumber, string $testType, string $message)
+	{
+		$this->testFaild = array(
+			'Name' => $name,
+			'FileName' => $fileName,
+			'LineNumber' => $lineNumber,
+			'TestType' => $testType,
+			'Message' => $message
 		);
 	}
 

@@ -1,22 +1,52 @@
 <?php
+namespace Framework\Test;
 
 class UnitTest
 {
+	/**
+	 * MainTestClass
+	 *
+	 * @var Instance of MainTestClass
+	 */
+	private $TestClass;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct($Test)
+	{
+		$this->TestClass = $Test;
+
+		var_dump($this);
+
+		if (is_callable([$this, 'initTestEnvironement'])) {
+			$this->initTestEnvironement();
+		}
+
+		foreach ($this as $element)
+		{
+			if (is_callable($element))
+			{
+				$element($this);
+			}
+		}
+	}
+
 	/**
 	 * Passesed if value is true
 	 *
 	 * @param boolean $value test value
 	 * @param string $message message display if test faild
 	 */
-	protected function TestTrue(boolean $value, string $message = '')
+	public function testTrue(boolean $value, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if (is_bool($value) && $value)
 		{
-			# code...
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			# code...
+			$this->TestClass->testFaild($name , __FUNCTION__, $message);
 		}		
 	}
 
@@ -26,15 +56,15 @@ class UnitTest
 	 * @param boolean $value
 	 * @param string $message message display if test faild
 	 */
-	protected function TestFalse(boolean $value, string $message = '')
+	public function testFalse(boolean $value, string $message = '')
 	{
 		if (is_bool($value) && !$value)
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 
@@ -45,15 +75,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	protected function TestEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
 	{
 		if ($referenceValue == $toTestValue)
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 	
@@ -64,15 +94,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	protected function TestNotEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testNotEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
 	{
 		if ($referenceValue != $toTestValue)
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 
@@ -83,15 +113,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	protected function TestSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
 	{
 		if ($referenceValue === $toTestValue)
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 
@@ -102,15 +132,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	protected function TestNotSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testNotSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
 	{
 		if ($referenceValue !== $toTestValue)
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 
@@ -121,15 +151,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	protected function TestContains(mixed $value, array $arr, string $message = '')
+	public function testContains(mixed $value, array $arr, string $message = '')
 	{
 		if (in_array($toTestValue ,$referenceValue))
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 
@@ -140,15 +170,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	protected function TestNotContains(mixed $value, array $arr, string $message = '')
+	public function testNotContains(mixed $value, array $arr, string $message = '')
 	{
 		if (!in_array($toTestValue ,$referenceValue))
 		{
-			# code...
+			$this->TestClass->test;
 		}
 		else
 		{
-			# code...
+			$this->TestClass->test;
 		}
 	}
 }

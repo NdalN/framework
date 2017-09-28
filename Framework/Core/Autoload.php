@@ -7,12 +7,11 @@
 class Autoloader
 {
     /**
-     * An associative array where the key is a namespace prefix and the value
-     * is an array of base directories for classes in that namespace.
+     * 
      *
      * @var array
      */
-    protected $prefixes = array();
+    protected $namespaceMapping = [];
 
     /**
      * Register loader with SPL autoloader stack.
@@ -25,35 +24,16 @@ class Autoloader
     }
 
     /**
-     * Adds a base directory for a namespace prefix.
+     * Adds a base directory for a namespace .
      *
      * @param string $prefix The namespace prefix.
-     * @param string $base_dir A base directory for class files in the
-     * namespace.
-     * @param bool $prepend If true, prepend the base directory to the stack
-     * instead of appending it; this causes it to be searched first rather
-     * than last.
+     * @param string $base_dir A base directory for class files in the namespace.
+     * 
      * @return void
      */
-    public function addNamespace($prefix, $base_dir, $prepend = false)
+    public function addNamespace($namespace, $realDir)
     {
-        // normalize namespace prefix
-        $prefix = trim($prefix, '\\') . '\\';
-
-        // normalize the base directory with a trailing separator
-        $base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
-
-        // initialize the namespace prefix array
-        if (isset($this->prefixes[$prefix]) === false) {
-            $this->prefixes[$prefix] = array();
-        }
-
-        // retain the base directory for the namespace prefix
-        if ($prepend) {
-            array_unshift($this->prefixes[$prefix], $base_dir);
-        } else {
-            array_push($this->prefixes[$prefix], $base_dir);
-        }
+        $this->namespaceMapping[$namespace] = $realDir;
     }
 
     /**
@@ -63,111 +43,27 @@ class Autoloader
      * @return mixed The mapped file name on success, or boolean false on
      * failure.
      */
-    public function loadClass($class)
+    public function loadClass($inputNamespace)
     {
-        // the current namespace prefix
-        $prefix = $class;
+        $path = $inputNamespace;
 
-        // work backwards through the namespace names of the fully-qualified
-        // class name to find a mapped file name
-        while (false !== $pos = strrpos($prefix, '\\')) {
 
-            // retain the trailing namespace separator in the prefix
-            $prefix = substr($class, 0, $pos + 1);
-
-            // the rest is the relative class name
-            $relative_class = substr($class, $pos + 1);
-
-            // try to load a mapped file for the prefix and relative class
-            $mapped_file = $this->loadMappedFile($prefix, $relative_class);
-            if ($mapped_file) {
-                return $mapped_file;
-            }
-
-            // remove the trailing namespace separator for the next iteration
-            // of strrpos()
-            $prefix = rtrim($prefix, '\\');
-        }
-
-        // never found a mapped file
-        return false;
-    }
-
-    /**
-     * Load the mapped file for a namespace prefix and relative class.
-     *
-     * @param string $prefix The namespace prefix.
-     * @param string $relative_class The relative class name.
-     * @return mixed Boolean false if no mapped file can be loaded, or the
-     * name of the mapped file that was loaded.
-     */
-    protected function loadMappedFile($prefix, $relative_class)
-    {
-        // are there any base directories for this namespace prefix?
-        if (isset($this->prefixes[$prefix]) === false) {
-            return false;
-        }
-
-        // look through base directories for this namespace prefix
-        foreach ($this->prefixes[$prefix] as $base_dir) {
-
-            // replace the namespace prefix with the base directory,
-            // replace namespace separators with directory separators
-            // in the relative class name, append with .php
-            $file = $base_dir
-                  . str_replace('\\', '/', $relative_class)
-                  . '.php';
-
-            // if the mapped file exists, require it
-            if ($this->requireFile($file)) {
-                // yes, we're done
-                return $file;
-            }
-        }
-
-        // never found it
-        return false;
-    }
-
-    /**
-     * If a file exists, require it from the file system.
-     *
-     * @param string $file The file to require.
-     * @return bool True if the file exists, false if not.
-     */
-    protected function requireFile($file)
-    {
-        if (file_exists($file)) {
-            require $file;
-            return true;
-        }
-        return false;
-    }
-}
-
-/**
- * Register application autoload function.
- */
-/*
-spl_autoload_register(function ($inputNamespace) {
-    
-        $namespaceMapping = array(
-            'Framework\\UnitTests' => 'UnitTests'
-        );
-    
-        foreach ($namespaceMapping as $namespace => $path) {
-            if (preg_match('#^'.$namespace.'#', $inputNamespace)) {
+        foreach ($this->namespaceMapping as $namespace => $path)
+        {
+            if (preg_match('#^'.$namespace.'#', $inputNamespace))
+            {
                 $path = preg_replace($namespace, $path, $inputNamespace);
+                break;
             }
         }
     
         $filename = str_replace('\\', '/', $path).'.php';
+        var_dump($path, $filename, $inputNamespace);
     
         if (is_readable($filename)) {
             require $filename;
         } else {
-            echo "<h1>Want to load $classname.</h1><br/>";
-            var_dump($filename, is_readable($filename));
+            echo "<h1>Want to load $filename</h1>\n\n\n";
         }
-    });
-*/
+    }
+}

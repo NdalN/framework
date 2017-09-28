@@ -55,7 +55,8 @@ class Request implements RequestInterface
         }
 
         if ($body !== '' && $body !== null) {
-            $this->stream = (new StreamFactory())->createStream($body);
+            $body = ($body === null)? '' : $body;
+            $this->stream = (new Stream())->create($body);
         }
     }
 

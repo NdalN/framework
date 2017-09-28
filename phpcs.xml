@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="NdalN PHP">
+ <description>Official PHP NdalN codding standard</description>
+
+	<!-- <exclude-pattern type="relative">^/.git/*</exclude-pattern>
+	<exclude-pattern type="relative">^/Bin/*</exclude-pattern>
+	<exclude-pattern type="relative">^/Assets/*</exclude-pattern>
+	<exclude-pattern type="relative">^/Cache/*</exclude-pattern> -->
+
+	<file>Framework</file>
+	<file>Application</file>
+	<file>Libs</file>
+	<file>Tests</file>
+
+
+	<arg name="report" value="summary"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+ 	<ini name="memory_limit" value="128M"/>
+	<autoload>Framework/Core/Autoload.php</autoload>
+
+	<rule ref="PSR2"></rule>
+
+</ruleset>

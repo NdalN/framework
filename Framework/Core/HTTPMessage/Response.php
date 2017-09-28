@@ -7,6 +7,7 @@ namespace Framework\Core\HttpMessage;
 //use Nyholm\Psr7\Factory\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Framework\Core\HttpMessage\Stream;
 
 /**
  * @author Michael Dowling and contributors to guzzlehttp/psr7
@@ -101,7 +102,8 @@ class Response implements ResponseInterface
         $this->statusCode = (int) $status;
 
         if ($body !== '' && $body !== null) {
-            $this->stream = (new StreamFactory())->createStream($body);
+            $body = ($body === null)? '' : $body;
+            $this->stream = (new Stream())->create($body);
         }
 
         $this->setHeaders($headers);

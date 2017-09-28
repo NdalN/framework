@@ -2,44 +2,12 @@
 
 namespace Framework\Core\HttpMessage;
 
-use Framework\Core\HttpMessage\ServerRequest;
+use Framework\Core\HttpMessage;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Cl
-{
-	/**
-	 * Send an HTTP response
-	 *
-	 * @return void
-	 */
-	function send(ResponseInterface $response)
-	{
-		$http_line = sprintf('HTTP/%s %s %s',
-			$response->getProtocolVersion(),
-			$response->getStatusCode(),
-			$response->getReasonPhrase()
-		);
-
-		header($http_line, true, $response->getStatusCode());
-
-		foreach ($response->getHeaders() as $name => $values) {
-			foreach ($values as $value) {
-				header("$name: $value", false);
-			}
-		}
-
-		$stream = $response->getBody();
-
-		if ($stream->isSeekable()) {
-			$stream->rewind();
-		}
-
-		while (!$stream->eof()) {
-			echo $stream->read(1024 * 8);
-		}
-    }
-    
+class HttpMessageIO
+{    
     /**
      * Return a ServerRequest populated with superglobals:
      * $_GET
@@ -50,7 +18,7 @@ class Cl
      *
      * @return ServerRequestInterface
      */
-    public static function fromGlobals()
+    public static function getfromGlobals()
     {
         $method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
         $headers = function_exists('getallheaders') ? getallheaders() : [];
@@ -145,6 +113,7 @@ class Cl
         $uri = new Uri('');
         $uri = $uri->withScheme(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http');
         $hasPort = false;
+
         if (isset($_SERVER['HTTP_HOST'])) {
             $hostHeaderParts = explode(':', $_SERVER['HTTP_HOST']);
             $uri = $uri->withHost($hostHeaderParts[0]);
@@ -157,9 +126,11 @@ class Cl
         } elseif (isset($_SERVER['SERVER_ADDR'])) {
             $uri = $uri->withHost($_SERVER['SERVER_ADDR']);
         }
+
         if (!$hasPort && isset($_SERVER['SERVER_PORT'])) {
             $uri = $uri->withPort($_SERVER['SERVER_PORT']);
         }
+
         $hasQuery = false;
         if (isset($_SERVER['REQUEST_URI'])) {
             $requestUriParts = explode('?', $_SERVER['REQUEST_URI']);
@@ -169,9 +140,42 @@ class Cl
                 $uri = $uri->withQuery($requestUriParts[1]);
             }
         }
+
         if (!$hasQuery && isset($_SERVER['QUERY_STRING'])) {
             $uri = $uri->withQuery($_SERVER['QUERY_STRING']);
         }
         return $uri;
+    }
+
+    /**
+	 * Send an HTTP response
+	 *
+	 * @return void
+	 */
+	public static function send(ResponseInterface $response)
+	{
+		$http_line = sprintf('HTTP/%s %s %s',
+			$response->getProtocolVersion(),
+			$response->getStatusCode(),
+			$response->getReasonPhrase()
+		);
+
+		header($http_line, true, $response->getStatusCode());
+
+		foreach ($response->getHeaders() as $name => $values) {
+			foreach ($values as $value) {
+				header("$name: $value", false);
+			}
+		}
+
+		$stream = $response->getBody();
+
+		if ($stream->isSeekable()) {
+			$stream->rewind();
+		}
+
+		while (!$stream->eof()) {
+			echo $stream->read(1024 * 8);
+		}
     }
 }
