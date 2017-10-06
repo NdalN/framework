@@ -19,5 +19,19 @@ class RendererTest extends UnitTest
 		$this->Renderer = new Renderer;
 	}
 
-	
+	private function testRenderTheRightPath()
+	{
+		$this->Renderer->addPath('blog', __DIR__ . '/Views');
+		$content = $this->Renderer->render('@blog/demo');
+
+		$this->testEquals('Hello test', $content);
+	}
+
+	private function testRenderTheDefaultPath()
+	{
+		$this->Renderer->addPath( __DIR__ . '/Views');
+		$content = $this->Renderer->render('@blog/demo');
+
+		$this->testEquals('Hello test', $content);
+	}
 }

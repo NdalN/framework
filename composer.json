@@ -1,0 +1,14 @@
+{
+    "name": "ndaln/framework",
+    "description": "A simple modular php framework",
+    "type": "framework",
+    "license": "Open-NdalN",
+    "authors": [
+        {
+            "name": "Felix Galaup",
+            "email": "felix.galaup@ndaln.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {}
+}
