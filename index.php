@@ -1,6 +1,15 @@
 <?php
+// Environment of deploiment 
+define('ENVIRONMENT', 'DEVELOPMENT');
+define('TEST', false); // if test is active 
 
-require 'Framework/Core/autoload.php';
+
+//Path Definition 
+define('FRAMEWORK_DIR', 'Framework');												//FrameworkDir
+define('MAIN_CONFIG_DIR', FRAMEWORK_DIR . DIRECTORY_SEPARATOR . 'Configuration');	//Main Config Dir
+
+
+require 'Framework/Core/Autoload/InitAutoloader.php';
 
 $Application = new \Framework\Core\Application();
 

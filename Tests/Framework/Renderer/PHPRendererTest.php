@@ -1,11 +1,10 @@
 <?php
-namespace Test\Framework\Renderer;
+//namespace Test\Framework\Renderer;
 
 use Framework\Test\UnitTest;
+use Framework\Renderer\PHPRenderer;
 
-use Framework\Renderer\Renderer;
-
-class RendererTest extends UnitTest
+class PHPRendererTest extends UnitTest
 {
 	/**
 	 * Renderer instance
@@ -16,7 +15,7 @@ class RendererTest extends UnitTest
 
 	public function initTestEnvironement()
 	{
-		$this->Renderer = new Renderer;
+		$this->Renderer = new PHPRenderer;
 	}
 
 	private function testRenderTheRightPath()

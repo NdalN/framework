@@ -17,17 +17,20 @@ class UnitTest
 	{
 		$this->TestClass = $Test;
 
-		var_dump($this);
+		//var_dump($this);
 
-		if (is_callable([$this, 'initTestEnvironement'])) {
-			$this->initTestEnvironement();
-		}
+		$methods = get_class_methods(get_class($this));
 
-		foreach ($this as $element)
+		foreach ($methods as $method)
 		{
-			if (is_callable($element))
+			if (is_callable([$this, 'initTestEnvironement'])) {
+				$this->initTestEnvironement();
+			}
+
+			if (is_callable($method))
 			{
-				$element($this);
+				var_dump($method);
+				$this->$method;
 			}
 		}
 	}
@@ -38,7 +41,7 @@ class UnitTest
 	 * @param boolean $value test value
 	 * @param string $message message display if test faild
 	 */
-	public function testTrue(boolean $value, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
+	public function testTrue(Boolean $value, String $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if (is_bool($value) && $value)
 		{
@@ -46,7 +49,7 @@ class UnitTest
 		}
 		else
 		{
-			$this->TestClass->testFaild($name , __FUNCTION__, $message);
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}		
 	}
 
@@ -56,15 +59,15 @@ class UnitTest
 	 * @param boolean $value
 	 * @param string $message message display if test faild
 	 */
-	public function testFalse(boolean $value, string $message = '')
+	public function testFalse(Boolean $value, String $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if (is_bool($value) && !$value)
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 
@@ -75,15 +78,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	public function testEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testEquals(mixed $referenceValue, mixed $toTestValue, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if ($referenceValue == $toTestValue)
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 	
@@ -94,15 +97,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	public function testNotEquals(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testNotEquals(mixed $referenceValue, mixed $toTestValue, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if ($referenceValue != $toTestValue)
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 
@@ -113,15 +116,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	public function testSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testSame(mixed $referenceValue, mixed $toTestValue, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if ($referenceValue === $toTestValue)
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 
@@ -132,15 +135,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	public function testNotSame(mixed $referenceValue, mixed $toTestValue, string $message = '')
+	public function testNotSame(mixed $referenceValue, mixed $toTestValue, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if ($referenceValue !== $toTestValue)
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 
@@ -151,15 +154,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	public function testContains(mixed $value, array $arr, string $message = '')
+	public function testContains(mixed $value, array $arr, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if (in_array($toTestValue ,$referenceValue))
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 
@@ -170,15 +173,15 @@ class UnitTest
 	 * @param mixed $toTestValue value to test
 	 * @param mixed $message message display if test faild
 	 */
-	public function testNotContains(mixed $value, array $arr, string $message = '')
+	public function testNotContains(mixed $value, array $arr, string $message = '', $name = __FUNCTION__, $file =__FILE__, $line = __LINE__)
 	{
 		if (!in_array($toTestValue ,$referenceValue))
 		{
-			$this->TestClass->test;
+			$this->TestClass->testSucces($name , $file , $line, __FUNCTION__, $message);
 		}
 		else
 		{
-			$this->TestClass->test;
+			$this->TestClass->testFaild($name , $file , $line, __FUNCTION__, $message);
 		}
 	}
 }

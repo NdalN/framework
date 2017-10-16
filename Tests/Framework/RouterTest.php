@@ -1,8 +1,9 @@
 <?php
-namespace Test\Framework\Router
+//namespace Test\Framework\Router;
 
 use Framework\Test\UnitTest;
 use Framework\Core\ServerRequest;
+use Framework\Router\Router;
 
 class RouterTest extends UnitTest
 {

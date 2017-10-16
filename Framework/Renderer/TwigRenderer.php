@@ -1,9 +1,13 @@
 <?php
-
 namespace Framework\Renderer;
+
+use \Framework\Renderer\TwigParser;
 
 class Renderer
 {
+
+	private $TwigParser;
+
 	/**
 	 * Contain all path
 	 *
@@ -23,6 +27,13 @@ class Renderer
 	 */
 	const DEFAULT_RENDERER_NAMESPACE = 'MAIN';
 	
+
+	public function __construct()
+	{
+		$this->TwigParser = new TwigParser();
+	}
+
+
 	/**
 	 * Adding path with path
 	 *
@@ -65,12 +76,14 @@ class Renderer
 	{
 		if ($this->hasNamespace($view))
 		{
-			$file = $this->replaceNamespace($view) . '.php';
+			$file = $this->replaceNamespace($view) . '.twig';
 		}
 		else
 		{
 			$file = $this->paths[self::DEFAULT_RENDERER_NAMESPACE] . DIRECTORY_SEPARATOR . $view . '.twig';
 		}
+
+		$this->getCachedFileName($file);
 		
 		ob_start();// start cache
 		$renderer = $this; //return the renderer instance
@@ -112,6 +125,21 @@ class Renderer
 	{
         $namespace = $this->getNamespace($view);
         return str_replace('@' . $namespace, $this->paths[$namespace], $view);
-    }
+	}
+	
+	private function getCachedFileName(String $file): String
+	{
 
+
+	}
+
+	private function cacheExist(String $var = null): Bool
+	{
+		# code...
+	}
+
+	private function parseFile($file)
+	{
+		$this->TwigParser->parseFile($file);
+	}
 }

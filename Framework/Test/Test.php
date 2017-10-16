@@ -12,13 +12,6 @@ class Test
 	 * @var [type]
 	 */
 	private $totalTestCount = 0;
-
-	/**
-	 * Count type of test
-	 *
-	 * @var array
-	 */
-	private $TestTypeCount = [];
 	
 	/**
 	 * Test Faild count
@@ -132,8 +125,18 @@ class Test
 		}
 
 		$endTestTime = (int) microtime(false);
-		var_dump($endTestTime, $startTestTime);
+		//var_dump($endTestTime, $startTestTime);
 		$testDurration = $endTestTime - $startTestTime;
+	}
+
+	/**
+	 * Retrun all resutl of test
+	 *
+	 * @return void
+	 */
+	public function getTestResult()
+	{
+		var_dump($this->test);
 	}
 
 	/**
@@ -148,13 +151,15 @@ class Test
 	 */
 	public function testFaild(string $name, string $fileName, int $lineNumber, string $testType, string $message)
 	{
-		$this->testFaild = array(
+		$this->test['faild'][$this->totalTestCount] = array(
 			'Name' => $name,
 			'FileName' => $fileName,
 			'LineNumber' => $lineNumber,
 			'TestType' => $testType,
 			'Message' => $message
 		);
+
+		$this->totalTestCount++;
 	}
 
 	/**
@@ -169,13 +174,14 @@ class Test
 	 */
 	public function testSucces(string $name, string $fileName, int $lineNumber, string $testType, string $message)
 	{
-		$this->testFaild = array(
+		$this->test['success'][$this->totalTestCount] = array(
 			'Name' => $name,
 			'FileName' => $fileName,
 			'LineNumber' => $lineNumber,
 			'TestType' => $testType,
 			'Message' => $message
 		);
-	}
 
+		$this->totalTestCount++;
+	}
 }

@@ -2,7 +2,7 @@
 
 namespace Framework\Renderer;
 
-class Renderer
+class PHPRenderer
 {
 	/**
 	 * Contain all path
