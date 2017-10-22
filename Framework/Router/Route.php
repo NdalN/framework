@@ -4,7 +4,7 @@ namespace Framework\Router;
 /**
 * 
 */
-class Route implements RouterInterface
+class Route implements RouteInterface
 {
 	private $name;
 

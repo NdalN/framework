@@ -1,11 +1,5 @@
 {
 	"psr-4": {
-		"Psr\\Http\\Message\\": "Framework/Core/HTTPMessage/Interface"
-        },
-	"classMap": {
-
-	},
-	"nameSpace": {
-
-	}
+		"Psr\\Http\\Message\\": "Framework/Core/HttpMessage/Interface/"
+        }
 }

@@ -17,20 +17,28 @@ class UnitTest
 	{
 		$this->TestClass = $Test;
 
-		//var_dump($this);
+		var_dump('Class name : ' . get_class($this));
 
 		$methods = get_class_methods(get_class($this));
+		$testMethods = get_class_methods(get_class());
 
 		foreach ($methods as $method)
 		{
+			//If methods is a methods of current class don't test it
+			if (in_array($method, $testMethods))
+			{
+				continue;
+			}
+
 			if (is_callable([$this, 'initTestEnvironement'])) {
 				$this->initTestEnvironement();
 			}
-
-			if (is_callable($method))
+			
+			
+			if (is_callable([$this, $method]) && ($method != '__construct'))
 			{
 				var_dump($method);
-				$this->$method;
+				$this->$method();
 			}
 		}
 	}

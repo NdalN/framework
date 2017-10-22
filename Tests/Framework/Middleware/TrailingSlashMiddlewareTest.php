@@ -4,14 +4,25 @@ use Framework\Core\HttpMessage\ServerRequest;
 
 class TrailingSlashMiddlewareTest extends UnitTest
 {
-	public function test(Type $var = null)
+	/**
+	 * Undocumented variable
+	 *
+	 * @var [type]
+	 */
+	private $Middleware;
+
+	public function initTestEnvironement()
+	{
+		$this->Middleware = new Framework\Middleware\TrailingSlashMiddleware;
+	}
+
+	public function removeTrailingSlash()
 	{
 		$request = new ServerRequest('GET', '/testslash/');
 		
-		// ??? Test Middleware
-
-		$this->testContains('testslash', $response->getHeader('Location'));
-		$this->testEquals(301, $response->getStatusCode());
+		call_user_func_array($this->Middleware, [$request, function ($request){
+			$this->testContains('testslash', $request->getHeader('Location'));
+			$this->testEquals(301, $request->getStatusCode());
+		}]);
 	}
-	
 }

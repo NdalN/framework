@@ -5,6 +5,7 @@ define('TEST', false); // if test is active
 
 
 //Path Definition 
+define('BASSE_DIR', dirname(__FILE__));
 define('FRAMEWORK_DIR', 'Framework');												//FrameworkDir
 define('MAIN_CONFIG_DIR', FRAMEWORK_DIR . DIRECTORY_SEPARATOR . 'Configuration');	//Main Config Dir
 
